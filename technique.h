@@ -19,6 +19,4 @@ protected:
 
 private:
     GLuint m_shaderProg;
-    typedef std::list<GLuint> ShaderObjList;
-    ShaderObjList m_shaderObjList;
 };

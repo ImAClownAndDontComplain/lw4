@@ -4,7 +4,7 @@
 #include "lighting_technique.h"
 #include "util.h"
 
-static const char* pVS = "                                                          \n\
+static const char* pVSl = "                                                          \n\
 #version 330                                                                        \n\
                                                                                     \n\
 layout (location = 0) in vec3 Position;                                             \n\
@@ -26,7 +26,7 @@ void main()                                                                     
     WorldPos0   = (gWorld * vec4(Position, 1.0)).xyz;                               \n\
 }";
 
-static const char* pFS = "                                                          \n\
+static const char* pFSl = "                                                          \n\
 #version 330                                                                        \n\
                                                                                     \n\
 const int MAX_POINT_LIGHTS = 2;                                                     \n\
@@ -167,11 +167,11 @@ bool LightingTechnique::Init()
         return false;
     }
 
-    if (!AddShader(GL_VERTEX_SHADER, pVS)) {
+    if (!AddShader(GL_VERTEX_SHADER, pVSl)) {
         return false;
     }
 
-    if (!AddShader(GL_FRAGMENT_SHADER, pFS)) {
+    if (!AddShader(GL_FRAGMENT_SHADER, pFSl)) {
         return false;
     }
 

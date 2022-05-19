@@ -27,9 +27,9 @@ public:
         m_pQuad = NULL;
         m_scale = 0.0f;
 
-        m_spotLight.AmbientIntensity = 0.0f;
-        m_spotLight.DiffuseIntensity = 0.9f;
-        m_spotLight.Color = Vector3f(1.0f, 1.0f, 1.0f);
+        m_spotLight.AmbientIntensity = 0.5f;
+        m_spotLight.DiffuseIntensity = 0.5;
+        m_spotLight.Color = Vector3f(0.8f, 1.0f, 1.0f);
         m_spotLight.Attenuation.Linear = 0.01f;
         m_spotLight.Position = Vector3f(-20.0, 20.0, 5.0f);
         m_spotLight.Direction = Vector3f(1.0f, -1.0f, 0.0f);
@@ -71,13 +71,13 @@ public:
 
         m_pQuad = new Mesh();
 
-        if (!m_pQuad->LoadMesh("cat.obj")) {
+        if (!m_pQuad->LoadMesh("models\\quad.obj")) {
             return false;
         }
 
         m_pMesh = new Mesh();
 
-        return m_pMesh->LoadMesh("phoenix.md2");
+        return m_pMesh->LoadMesh("phoenix_ugv.md2");
     }
 
     void Run()
@@ -104,8 +104,8 @@ public:
 
         Pipeline p;
         p.Scale(0.2f, 0.2f, 0.2f);
-        p.Rotate(0.0f, m_scale, 0.0f);
-        p.WorldPos(0.0f, 0.0f, 5.0f);
+        p.Rotate(0.0f, 0.0f, m_scale);
+        p.WorldPos(0.0f, 0.0f, 10.0f);
         p.SetCamera(m_spotLight.Position, m_spotLight.Direction, Vector3f(0.0f, 1.0f, 0.0f));
         p.SetPerspectiveProj(60.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1.0f, 50.0f);
         m_pShadowMapTech->SetWVP(p.GetWVPTrans());

@@ -5,9 +5,6 @@ Technique::Technique() {
 }
 
 Technique::~Technique() {
-    for (ShaderObjList::iterator it = m_shaderObjList.begin(); it != m_shaderObjList.end(); it++) {
-        glDeleteShader(*it);
-    }
 
     if (m_shaderProg != 0) {
         glDeleteProgram(m_shaderProg);
@@ -27,7 +24,7 @@ bool Technique::Init() {
 }
 
 //Используем этот метод для добавления шейдеров в программу. Когда заканчиваем - вызываем finalize()
-bool Technique::AddShader(GLenum ShaderType, const char* pShaderText) {
+bool Technique::AddShader(GLenum ShaderType, const char* ShaderText) {
     GLuint ShaderObj = glCreateShader(ShaderType);
 
     if (ShaderObj == 0) {
@@ -35,14 +32,9 @@ bool Technique::AddShader(GLenum ShaderType, const char* pShaderText) {
         return false;
     }
 
-    // Сохраним объект шейдера - он будет удален в декструкторе
-    m_shaderObjList.push_back(ShaderObj);
-
-    const GLchar* p[1];
-    p[0] = pShaderText;
-    GLint Lengths[1];
-    Lengths[0] = strlen(pShaderText);
-    glShaderSource(ShaderObj, 1, p, Lengths);
+    const GLchar* ShaderSource[1];
+    ShaderSource[0] = ShaderText;
+    glShaderSource(ShaderObj, 1, ShaderSource, nullptr);
 
     glCompileShader(ShaderObj);
 
@@ -59,6 +51,7 @@ bool Technique::AddShader(GLenum ShaderType, const char* pShaderText) {
     glAttachShader(m_shaderProg, ShaderObj);
 
     return true;
+
 }
 
 // После добавления всех шейдеров в программу вызываем эту функцию
@@ -83,14 +76,6 @@ bool Technique::Finalize() {
         fprintf(stderr, "Invalid shader program: '%s'\n", ErrorLog);
         return false;
     }
-
-    // Удаляем промежуточные объекты шейдеров, которые были добавлены в программу
-    for (ShaderObjList::iterator it = m_shaderObjList.begin(); it != m_shaderObjList.end(); it++) {
-        glDeleteShader(*it);
-    }
-
-    m_shaderObjList.clear();
-
     return true;
 }
 
