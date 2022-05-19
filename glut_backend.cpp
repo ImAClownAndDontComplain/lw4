@@ -69,7 +69,7 @@ void GLUTBackendRun(ICallbacks* pCallbacks) {
         return;
     }
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
 
     glEnable(GL_DEPTH_TEST);
 
